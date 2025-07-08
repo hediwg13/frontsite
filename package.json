@@ -1,0 +1,21 @@
+{
+  "name": "front",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@chatkitty/core": "^1.11.0",
+    "vue": "^3.3.2",
+    "vue-advanced-chat": "^2.1.0",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.89.2",
+    "vite": "^4.3.5"
+  }
+}
