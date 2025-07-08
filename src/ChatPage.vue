@@ -62,7 +62,7 @@ export default {
     ];
     // ⭐-------------------------------------------------⭐
 
-    this.chatClient = new WebSocket('ws://https://cryptoaiagent.onrender.com/ws'); // ⭐ 웹소켓 주소에 /ws 경로 추가 ⭐
+    this.chatClient = new WebSocket('wss://cryptoaiagent.onrender.com/ws'); // ⭐ 웹소켓 주소에 /ws 경로 추가 ⭐
 
     this.chatClient.onopen = () => {
       console.log('WebSocket client connected!');
