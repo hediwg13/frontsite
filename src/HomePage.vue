@@ -1,230 +1,250 @@
 <template>
-  <div className="homepage-container">
-    <div className="background-gradient"></div>
-    <div className="content-wrapper">
-      <h1 className="main-heading">
-        <span className="highlight">Unlocking Alpha.</span>
-        <br/>
-        Your AI-Powered Crypto Edge.
-      </h1>
-      <p className="sub-text">
-        "Navigating the volatile crypto markets is hard. Don't trade alone."
-        <br/>
-        Our AI expert analyzes real-time technical indicators to give you clear, actionable insights.
-      </p>
-      <div className="button-group">
-        <router-link to="/chat" className="main-button primary-cta">
-          Start Your Free AI Analysis
-        </router-link>
-        <a href="#" className="main-button secondary-link">
-          Learn More
-        </a>
+  <div class="swap-container">
+    <h2 class="title">언제 어디서나 스왑하세요.</h2>
+
+    <div class="swap-card sell-card">
+      <div class="card-header">
+        <label for="sell-amount">팔기</label>
       </div>
-      <div className="features-grid">
-        <div className="feature-item">
-          <span className="feature-icon">✨</span>
-          <p className="feature-text">Real-time Technical Insights</p>
+      <div class="input-group">
+        <input
+            id="sell-amount"
+            type="number"
+            v-model="sellAmount"
+            placeholder="0"
+            class="swap-input"
+        />
+        <div class="currency-selector">
+          <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg" alt="ETH" class="currency-icon" />
+          <span>ETH</span>
+          <svg class="dropdown-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7 10l5 5 5-5z" />
+          </svg>
         </div>
-        <div className="feature-item">
-          <span className="feature-icon">🧠</span>
-          <p className="feature-text">AI-Driven Crypto Expertise</p>
-        </div>
-        <div className="feature-item">
-          <span className="feature-icon">📈</span>
-          <p className="feature-text">Actionable Market Overviews</p>
-        </div>
+      </div>
+      <div class="amount-in-usd">
+        US$0
       </div>
     </div>
+
+    <button class="swap-button" @click="swapTokens">
+      <svg viewBox="0 0 24 24" class="swap-icon">
+        <path fill="currentColor" d="M12 2v19.984l-3-3.047 3 3.047 3-3.047-3 3.047z" />
+      </svg>
+    </button>
+
+    <div class="swap-card buy-card">
+      <div class="card-header">
+        <label for="buy-amount">구매</label>
+      </div>
+      <div class="input-group">
+        <input
+            id="buy-amount"
+            type="number"
+            v-model="buyAmount"
+            placeholder="0"
+            class="swap-input"
+        />
+        <button class="token-select-button">
+          토큰 선택
+        </button>
+      </div>
+      <div class="amount-in-usd">
+        US$0
+      </div>
+    </div>
+
+    <button class="start-button">시작하기</button>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HomePage',
+<script setup>
+import { ref } from 'vue';
+
+const sellAmount = ref('');
+const buyAmount = ref('');
+
+const swapTokens = () => {
+  const temp = sellAmount.value;
+  sellAmount.value = buyAmount.value;
+  buyAmount.value = temp;
 };
 </script>
 
-<style lang="scss" scoped>
-/* scoped를 사용하여 이 스타일이 현재 컴포넌트에만 적용되도록 함 */
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
-.homepage-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 60px); /* 헤더 높이만큼 빼줌 */
+:root {
+  --background-color: #212529; /* 더 밝은 회색 계열 배경 */
+  --card-background: #2b3035; /* 카드 배경 */
+  --border-color: #495057; /* 카드 테두리 */
+  --primary-color: #ff69b4; /* 핫 핑크 */
+  --secondary-color: #8a2be2; /* 보라 */
+  --text-color: #f8f9fa; /* 밝은 텍스트 */
+  --light-text-color: #ced4da; /* 보조 텍스트 */
+  --input-placeholder-color: #6c757d;
+  --button-background: #343a40;
+}
+
+.swap-container {
+  font-family: 'Noto Sans KR', sans-serif;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 28px;
+  background-color: var(--background-color);
+  border-radius: 24px;
   text-align: center;
-  position: relative; /* 배경 그라데이션을 위한 상대 위치 */
-  overflow: hidden; /* 배경이 넘치지 않도록 */
-  background-color: #1a1a1a; /* 기본 어두운 배경색 */
-  color: #f0f0f0; /* 밝은 텍스트 색상 */
-  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
-/* 배경 그라데이션 효과 (degen.tips처럼 은은한 움직임이나 텍스처를 더할 수도 있음) */
-.background-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(30, 30, 30, 0.95), rgba(0, 0, 0, 0.9), rgba(30, 30, 30, 0.95));
-  z-index: 0; /* 내용 뒤에 배치 */
-}
-
-.content-wrapper {
-  position: relative; /* z-index를 위해 상대 위치 */
-  z-index: 1; /* 배경 위에 내용이 오도록 */
-  max-width: 1000px; /* 더 넓은 콘텐츠 영역 */
-  padding: 60px 40px; /* 패딩 증가 */
-  background: rgba(255, 255, 255, 0.05); /* 약간 투명한 어두운 카드 배경 */
-  border-radius: 20px; /* 더 둥근 모서리 */
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* 더 강한 그림자 */
-  backdrop-filter: blur(5px); /* 약간의 블러 효과 (유리모피즘) */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* 미세한 테두리 */
-}
-
-.main-heading {
-  font-size: 3.8em; /* 더 크고 임팩트 있게 */
-  font-weight: 800;
-  color: #f0f0f0; /* 밝은 텍스트 */
-  margin-bottom: 25px;
-  line-height: 1.25;
-  letter-spacing: -0.03em; /* 글자 간격 조절 */
-
-  .highlight {
-    color: #4CAF50; /* 강조색 (예: 밝은 녹색) */
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5); /* 강조색에 미세한 그림자 */
-  }
-}
-
-.sub-text {
-  font-size: 1.3em;
-  color: #a0a0a0; /* 회색조 텍스트 */
-  margin-bottom: 50px;
-  line-height: 1.6;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 25px; /* 버튼 간격 증가 */
-  margin-bottom: 60px;
-}
-
-.main-button {
-  padding: 18px 35px; /* 패딩 증가 */
-  font-size: 1.15em;
+.title {
+  font-size: 28px;
   font-weight: 700;
-  border: none;
-  border-radius: 35px; /* 더 둥근 버튼 */
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  letter-spacing: 0.02em;
+  margin-bottom: 35px;
+  color: var(--text-color);
 }
 
-.primary-cta {
-  background: linear-gradient(45deg, #4CAF50, #8BC34A); /* 녹색 그라데이션 */
-  color: white;
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4); /* 강조색 그림자 */
+.swap-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 25px;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.primary-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
-  background: linear-gradient(45deg, #8BC34A, #4CAF50); /* 호버 시 그라데이션 반전 */
+.card-header label {
+  font-size: 17px;
+  color: var(--light-text-color);
+  font-weight: 500;
 }
 
-.secondary-link {
-  background-color: transparent;
-  color: #a0a0a0; /* 회색 텍스트 */
-  border: 2px solid #606060; /* 어두운 테두리 */
-}
-
-.secondary-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #f0f0f0;
-  transform: translateY(-3px);
-  border-color: #a0a0a0;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 3열 그리드 */
-  gap: 30px;
-  margin-top: 50px;
-  justify-content: center;
-}
-
-.feature-item {
-  background: rgba(255, 255, 255, 0.08); /* 어두운 배경에 약간 투명한 카드 */
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, background 0.3s ease;
+.input-group {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.swap-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--text-color);
+  outline: none;
+  padding: 0;
+}
+
+.swap-input::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+  background-color: var(--button-background);
+  color: var(--light-text-color);
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 17px;
+  cursor: pointer;
+  border: 1px solid #495057;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.currency-selector:hover {
+  background-color: #495057;
+  transform: translateY(-2px);
+}
+
+.currency-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+}
+
+.dropdown-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  color: var(--light-text-color);
+}
+
+.token-select-button {
+  background-color: var(--button-background);
+  color: var(--light-text-color);
+  border: 1px solid #495057;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.token-select-button:hover {
+  background-color: #495057;
+  transform: translateY(-2px);
+}
+
+.amount-in-usd {
+  font-size: 15px;
+  color: var(--light-text-color);
+  margin-top: 15px;
+}
+
+.swap-button {
+  background-color: var(--background-color);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
   align-items: center;
   justify-content: center;
+  margin: -25px auto;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.2s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
-.feature-item:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.15);
+.swap-button:hover {
+  transform: rotate(180deg) scale(1.1);
+  background-color: var(--card-background);
 }
 
-.feature-icon {
-  font-size: 3em; /* 아이콘 크기 */
-  margin-bottom: 15px;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* 아이콘에 그림자 */
+.swap-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--light-text-color);
 }
 
-.feature-text {
-  font-size: 1.1em;
-  color: #e0e0e0;
-  font-weight: 500;
-  line-height: 1.4;
+.start-button {
+  width: 100%;
+  background-color: var(--button-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 10px var(--primary-color);
 }
 
-/* --- 모바일 반응형 --- */
-@media (max-width: 992px) {
-  .main-heading {
-    font-size: 3em;
-  }
-  .sub-text {
-    font-size: 1.1em;
-  }
-  .button-group {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  .main-button {
-    width: 80%;
-    max-width: 350px;
-  }
-  .content-wrapper {
-    padding: 40px 25px;
-  }
-  .features-grid {
-    grid-template-columns: 1fr; /* 모바일에서 한 줄에 하나씩 */
-  }
-}
-
-@media (max-width: 576px) {
-  .main-heading {
-    font-size: 2.2em;
-  }
-  .sub-text {
-    font-size: 1.0em;
-  }
-  .main-button {
-    font-size: 1.0em;
-    padding: 12px 25px;
-  }
+.start-button:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+  border: none;
 }
 </style>
